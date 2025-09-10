@@ -145,7 +145,7 @@ class SignInPage extends StatelessWidget {
                                             email: email!,
                                             password: password!,
                                           );
-                                        } else {}
+                                        }
                                       },
                                     ),
                               ),

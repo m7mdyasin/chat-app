@@ -7,6 +7,7 @@ import 'package:chat_app/widget/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage({super.key});
@@ -99,16 +100,6 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     );
                   },
-                  // () async {
-                  //   await FirebaseAuth.instance.signOut();
-                  //   showSnackBar(context, 'Successfully logged out');
-                  //   Navigator.of(context).pushAndRemoveUntil(
-                  //     MaterialPageRoute(
-                  //       builder: (context) => const IntroPage(),
-                  //     ),
-                  //     (route) => false,
-                  //   );
-                  // },
                 ),
               ],
               title: Text(email ?? ''),
@@ -125,6 +116,26 @@ class _ChatPageState extends State<ChatPage> {
             ),
             body: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: kSenderColor.withOpacity(0.5),
+                    ),
+
+                    child: Text(
+                      DateFormat('EEEE').format(DateTime.now()),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
                     controller: _controller,
@@ -153,7 +164,6 @@ class _ChatPageState extends State<ChatPage> {
                                     'unknown',
                               });
                               messageController.clear();
-                              // السكول سيتم بعد بناء الرسالة الجديدة
                             },
                             controller: messageController,
                             decoration: InputDecoration(

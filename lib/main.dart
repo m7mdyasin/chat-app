@@ -1,5 +1,6 @@
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/cubits/sign_in_cubit/signin_cubit.dart';
+import 'package:chat_app/pages/cubits/sign_up_cubit/sign_up_cubit.dart';
 import 'package:chat_app/pages/intro_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class ChatApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SigninCubit>(create: (context) => SigninCubit()),
-        // BlocProvider<SigninCubit>(create: (context) => SigninCubit()),
+        BlocProvider<SignUpCubit>(create: (context) => SignUpCubit()),
         // هنا تقدر تضيف Cubits/Blocs تانية لو محتاج
       ],
       child: MaterialApp(
