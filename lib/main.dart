@@ -1,9 +1,11 @@
 import 'package:chat_app/firebase_options.dart';
+import 'package:chat_app/pages/cubits/sign_in_cubit/signin_cubit.dart';
 import 'package:chat_app/pages/intro_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/pages/chat_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,13 +15,19 @@ void main() async {
 
 class ChatApp extends StatelessWidget {
   const ChatApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: user != null ? ChatPage() : IntroPage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SigninCubit>(create: (context) => SigninCubit()),
+        // BlocProvider<SigninCubit>(create: (context) => SigninCubit()),
+        // هنا تقدر تضيف Cubits/Blocs تانية لو محتاج
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: user != null ? ChatPage() : IntroPage(),
+      ),
     );
   }
 }

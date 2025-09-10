@@ -54,16 +54,61 @@ class _ChatPageState extends State<ChatPage> {
               actions: [
                 IconButton(
                   icon: const Icon(Icons.logout),
-                  onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                    showSnackBar(context, 'Successfully logged out');
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const IntroPage(),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        title: const Text(
+                          'Sign Out',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 180, 29, 127),
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        content: const Text(
+                          'Please press ok to confirm sign out.',
+                          style: TextStyle(fontFamily: 'Poppins'),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+                              showSnackBar(context, 'Successfully logged out');
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (context) => const IntroPage(),
+                                ),
+                                (route) => false,
+                              );
+                            },
+
+                            child: const Text(
+                              'OK',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 180, 29, 127),
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      (route) => false,
                     );
                   },
+                  // () async {
+                  //   await FirebaseAuth.instance.signOut();
+                  //   showSnackBar(context, 'Successfully logged out');
+                  //   Navigator.of(context).pushAndRemoveUntil(
+                  //     MaterialPageRoute(
+                  //       builder: (context) => const IntroPage(),
+                  //     ),
+                  //     (route) => false,
+                  //   );
+                  // },
                 ),
               ],
               title: Text(email ?? ''),

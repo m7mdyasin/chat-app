@@ -9,4 +9,7 @@ class SigninSucsses extends SigninState {}
 
 class SigninLoading extends SigninState {}
 
-class SigninFailure extends SigninState {}
+class SigninFailure extends SigninState {
+  String errorMessage;
+  SigninFailure({required this.errorMessage});
+}
