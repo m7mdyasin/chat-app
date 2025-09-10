@@ -1,4 +1,5 @@
 import 'package:chat_app/pages/chat_page.dart';
+import 'package:chat_app/pages/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/pages/cubits/sign_in_cubit/signin_cubit.dart';
 import 'package:chat_app/pages/sign_up_page.dart';
 import 'package:chat_app/widget/custoum_sign_elveted_buttoun.dart';
@@ -9,7 +10,6 @@ import 'package:chat_app/widget/gradient_background.dart';
 import 'package:chat_app/widget/sign_buttoun.dart';
 import 'package:chat_app/widget/snackbar.dart';
 import 'package:chat_app/widget/social_log_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -29,6 +29,7 @@ class SignInPage extends StatelessWidget {
           isLoading = true;
         } else if (state is SigninSucsses) {
           isLoading = false;
+          BlocProvider.of<ChatCubit>(context).getMessage();
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => ChatPage()),
             (route) => false,
@@ -181,8 +182,8 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Future<void> signInUser() async {
-    UserCredential user = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email!, password: password!);
-  }
+  // Future<void> signInUser() async {
+  //   UserCredential user = await FirebaseAuth.instance
+  //       .signInWithEmailAndPassword(email: email!, password: password!);
+  // }
 }

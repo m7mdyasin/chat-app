@@ -20,6 +20,8 @@ class SignUpPage extends StatelessWidget {
   bool isLoading = false;
   GlobalKey<FormState> formKey = GlobalKey();
 
+  SignUpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpState>(
@@ -185,8 +187,8 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Future<void> signUpUser() async {
-    UserCredential user = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email!, password: password!);
-  }
+  // Future<void> signUpUser() async {
+  //   UserCredential user = await FirebaseAuth.instance
+  //       .createUserWithEmailAndPassword(email: email!, password: password!);
+  // }
 }

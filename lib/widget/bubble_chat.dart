@@ -1,10 +1,13 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/model/message.dart';
+import 'package:chat_app/pages/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BubbleChat extends StatelessWidget {
-  BubbleChat({super.key, required this.message});
+  const BubbleChat({super.key, required this.message});
   final Message message;
 
   @override
@@ -13,6 +16,58 @@ class BubbleChat extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         BubbleNormal(
+          onLongPress: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                title: const Text(
+                  'Delete Message',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 180, 29, 127),
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: const Text(
+                  'Please press ok to delete this message',
+                  style: TextStyle(fontFamily: 'Poppins'),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      BlocProvider.of<ChatCubit>(
+                        context,
+                      ).deleteMessage(message.id);
+                      Navigator.of(context).pop();
+                    },
+
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 180, 29, 127),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          onDoubleTap: () {
+            Clipboard.setData(ClipboardData(text: message.message));
+            final snackBar = SnackBar(
+              content: Text(
+                'Message copied to clipboard',
+                style: TextStyle(fontFamily: 'Poppins'),
+              ),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
           padding: const EdgeInsets.only(
             top: 10,
             bottom: 2,
@@ -49,7 +104,7 @@ class BubbleChat extends StatelessWidget {
 }
 
 class ReciverBubbleChat extends StatelessWidget {
-  ReciverBubbleChat({super.key, required this.message});
+  const ReciverBubbleChat({super.key, required this.message});
   final Message message;
 
   @override
@@ -58,6 +113,18 @@ class ReciverBubbleChat extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BubbleNormal(
+          onLongPress: () {},
+          onDoubleTap: () {
+            Clipboard.setData(ClipboardData(text: message.message));
+            final snackBar = SnackBar(
+              content: Text(
+                'Message copied to clipboard',
+                style: TextStyle(fontFamily: 'Poppins'),
+              ),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
           padding: const EdgeInsets.only(
             top: 10,
             bottom: 2,
